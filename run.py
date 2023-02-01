@@ -37,21 +37,35 @@ def validate_input(x):
     while True:
         if x < 1:
             x = int(input(f'Column {x} does not exist. Please choose column 1-7: '))
-            return x
         elif x > 7:
             x = int(input(f'Column {x} does not exist. Please choose column 1-7: '))
-            return x
         else:
             break
     return x
-    '''
+'''
 
+
+def win():
+    return False
+
+player = '🔴'
+while not win():
+    print_board()
+    x = int(input('Enter a column: '))
+    place_chip(x, player)
+    print_board()
+    if player == '🔴':
+        player = '🟡'
+    else: player = '🔴'
+
+'''
 def play_game():
     print_board()
     x = int(input('Player 1 select a column(1-7): '))
     #validate_input(x)
-    place_chip(validate_input(x), '🔴')
+    place_chip(x , '🔴')
     print_board()
 
 
 play_game()
+'''

@@ -46,6 +46,15 @@ def validate_input(x):
 
 
 def horizontal_win():
+    '''
+    Checks for 4 in a row in the horizontal direction
+    '''
+    for r in range(0, ROWS):
+        for c in range(0, 4):
+            if board[r][c] != '⚪':
+                if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
+                    print('Player', board[r][c], 'won!')
+                    return True
     return False
     
 

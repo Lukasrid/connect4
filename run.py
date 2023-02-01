@@ -21,13 +21,24 @@ def print_board():
             print(board[row][col], end=' ')
         print(" ")
 
-"""
-def placed_chip(col, player):
+
+def place_chip(col, player):
     '''
     Places chip in the first empty slot from the bottom in a column
     '''
     col = col - 1
     for rows in range(ROWS-1, -1, -1):
-        if board[rows][col] == '⚪':"""
+        if board[rows][col] == '⚪':
+            board[rows][col] = player
+            break
+        
 
+print_board()
+
+x = int(input('Player 1 select a column(1-7):'))
+place_chip(x, '🔴')
+print_board()
+
+x = int(input('Player 2 select a column(1-7):'))
+place_chip(x, '🟡')
 print_board()

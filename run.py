@@ -45,8 +45,20 @@ def validate_input(x):
 '''
 
 
-def win():
+def horizontal_win():
     return False
+    
+
+def vertical_win():
+    return False
+
+def diagonal_win():
+    return False
+
+def win():
+    if horizontal_win() or vertical_win() or diagonal_win():
+        return True
+
 
 player = '🔴'
 while not win():
@@ -58,14 +70,5 @@ while not win():
         player = '🟡'
     else: player = '🔴'
 
-'''
-def play_game():
-    print_board()
-    x = int(input('Player 1 select a column(1-7): '))
-    #validate_input(x)
-    place_chip(x , '🔴')
-    print_board()
 
 
-play_game()
-'''

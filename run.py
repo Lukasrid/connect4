@@ -1,3 +1,24 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+
+board = [['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
+         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪']]
+
+
+ROWS = 6
+COLUMNS = 7
+
+
+def print_board():
+    '''
+    Prints out the game board
+    '''
+    for row in range(0, ROWS):
+        for col in range(0, COLUMNS):
+            print(board[row][col], end=' ')
+        print(" ")
+
+
+print_board()

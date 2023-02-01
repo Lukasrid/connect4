@@ -31,14 +31,26 @@ def place_chip(col, player):
         if board[rows][col] == '⚪':
             board[rows][col] = player
             break
-        
 
-print_board()
 
-x = int(input('Player 1 select a column(1-7):'))
-place_chip(x, '🔴')
-print_board()
+def validate_input(x):
+    while True:
+        if x < 1:
+            x = int(input(f'Column {x} does not exist. Please choose column 1-7.'))
+            return x
+        elif x > 7:
+            x = int(input(f'Column {x} does not exist. Please choose column 1-7.'))
+            return x
+        else:
+            break
+    return x
 
-x = int(input('Player 2 select a column(1-7):'))
-place_chip(x, '🟡')
-print_board()
+def play_game():
+    print_board()
+    x = int(input('Player 1 select a column(1-7):'))
+    validate_input(x)
+    place_chip(validate_input(x), '🔴')
+    print_board()
+
+
+play_game()

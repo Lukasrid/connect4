@@ -49,8 +49,8 @@ def horizontal_win():
     '''
     Checks for 4 in a row in the horizontal direction
     '''
-    for r in range(0, ROWS):
-        for c in range(0, 4):
+    for c in range(0, 4):
+        for r in range(0, ROWS):
             if board[r][c] != '⚪':
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
                     print('Player', board[r][c], 'won!')
@@ -59,6 +59,15 @@ def horizontal_win():
     
 
 def vertical_win():
+    '''
+    Checks for 4 in a row in the vertical direction
+    '''
+    for c in range(0, COLUMNS):
+        for r in range(0, 3):
+            if board[r][c] != '⚪':
+                if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
+                    print('Player', board[r][c], 'won!')
+                    return True
     return False
 
 def diagonal_win():

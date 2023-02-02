@@ -78,12 +78,18 @@ def win():
         return True
 
 
+def validate_input(x):
+    while x < 1 or x > 7:
+        x = int(input(f'Coloumn number {x} does not exist. Please enter a coloumn number from 1-7: '))
+        continue
+    return x
+
 player = '🔴'
 while not win():
     print_board()
-    x = int(input('Enter a column: '))
+    x = int(input('Enter a coloumn number from 1-7: '))
+    x = validate_input(x)
     place_chip(x, player)
-    print_board()
     if player == '🔴':
         player = '🟡'
     else: player = '🔴'

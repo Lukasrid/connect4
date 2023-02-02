@@ -2,7 +2,7 @@ import random
 
 
 print('\nWelcome to Connect 4!\nPlayer 🔴 starts the game.\n')
-
+computer = input('Do you want to play against a computer? YES or NO? (Y/N): ').lower()
 
 board = [['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
          ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
@@ -108,28 +108,40 @@ def validate_input(x):
             continue
         except ValueError as e:
             print(f'\nThat is an {e} is not a number. Please try again.')
-            x = int(input('Enter a column number between 1-7: \n'))
+            x = int(input('Enter a coloumn number between 1-7: \n'))
             continue
     return x
 
+def play_human():
+    player = '🔴'
+    while not win():
+        '''
+        Kepps playing the game until one of the win criteria is fulfilled
+        '''
+        print_board()
+        while True:
+            '''
+            Checks that the input is an integer
+            '''
+            try:
+                x = int(input('\nEnter a coloumn number between 1-7: \n'))
+                break
+            except ValueError as e:
+                print(f'\nThat is an {e} is not a number. Please try again.\n')
+        x = validate_input(x)
+        place_chip(x, player)
+        if player == '🔴':
+            player = '🟡'
+        else: player = '🔴'
 
-player = '🔴'
-while not win():
-    '''
-    Kepps playing the game until one of the win criteria is fulfilled
-    '''
-    print_board()
-    while True:
-        '''
-        Checks that the input is an integer
-        '''
-        try:
-            x = int(input('\nEnter a column number between 1-7: \n'))
-            break
-        except ValueError as e:
-            print(f'\nThat is an {e} is not a number. Please try again.\n')
-    x = validate_input(x)
-    place_chip(x, player)
-    if player == '🔴':
-        player = '🟡'
-    else: player = '🔴'
+while True:
+    if computer == 'y' or 'yes':
+        #play_computer()
+        print('playing computer')
+        break
+    elif computer == 'n' or 'no':
+        play_human()
+        break
+    else:
+        computer = input('Do you want to play against a computer? (Y/N)').lower()
+        continue

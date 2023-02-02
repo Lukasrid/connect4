@@ -1,3 +1,7 @@
+import random
+
+
+print('\nWelcome to Connect 4!\nPlayer 🔴 starts the game.\n')
 
 board = [['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
          ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
@@ -42,10 +46,10 @@ def horizontal_win():
             if board[r][c] != '⚪':
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
                     print_board()
-                    print('Player', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!')
                     return True
     return False
-    
+
 
 def vertical_win():
     '''
@@ -56,7 +60,7 @@ def vertical_win():
             if board[r][c] != '⚪':
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
                     print_board()
-                    print('Player', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!')
                     return True
     return False
 
@@ -71,7 +75,7 @@ def diagonal_win():
             if board[r][c] !='⚪':
                 if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
                     print_board()
-                    print('Player', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!')
                     return True
 
     #Going to the right and down, negative slope (\)
@@ -80,10 +84,9 @@ def diagonal_win():
             if board[r][c] !='⚪':
                 if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
                     print_board()
-                    print('Player', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!')
                     return True
     return False
-
 
 
 def win():
@@ -99,14 +102,20 @@ def validate_input(x):
     Chacks that the input entered is a number between 1 and 7
     '''
     while x < 1 or x > 7:
-        x = int(input(f'Coloumn number {x} does not exist. Please enter a coloumn number between 1-7: '))
-        continue
+        try:
+            x = int(input(f'\nColumn number {x} does not exist. Please enter a column number between 1-7: \n'))
+            continue
+        except ValueError as e:
+            print(f'\nThat is an {e} is not a number. Please try again.')
+            x = int(input('Enter a coloumn number between 1-7: \n'))
+            continue
     return x
+
 
 player = '🔴'
 while not win():
     '''
-    Kepps playing the game until one of the win criterea is fullfilled
+    Kepps playing the game until one of the win criteria is fulfilled
     '''
     print_board()
     while True:
@@ -114,10 +123,10 @@ while not win():
         Checks that the input is an integer
         '''
         try:
-            x = int(input('Enter a coloumn number between 1-7: '))
+            x = int(input('\nEnter a coloumn number between 1-7: \n'))
             break
         except ValueError as e:
-            print(f'That is an {e} is not a number. Please try again.')
+            print(f'\nThat is an {e} is not a number. Please try again.\n')
     x = validate_input(x)
     place_chip(x, player)
     if player == '🔴':

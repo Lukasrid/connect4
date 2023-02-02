@@ -32,18 +32,6 @@ def place_chip(col, player):
             board[rows][col] = player
             break
 
-'''
-def validate_input(x):
-    while True:
-        if x < 1:
-            x = int(input(f'Column {x} does not exist. Please choose column 1-7: '))
-        elif x > 7:
-            x = int(input(f'Column {x} does not exist. Please choose column 1-7: '))
-        else:
-            break
-    return x
-'''
-
 
 def horizontal_win():
     '''
@@ -74,15 +62,42 @@ def vertical_win():
 
 
 def diagonal_win():
+    '''
+    Checks for 4 in a row in both diagonal directions
+    '''
+    # Going to the right and up, positive slope (/)
+    for c in range(0, 4):
+        for r in range(3, ROWS):
+            if board[r][c] !='⚪':
+                if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
+                    print_board()
+                    print('Player', board[r][c], 'won!')
+                    return True
+
+    #Going to the right and down, negative slope (\)
+    for c in range(0, 4):
+        for r in range(0, 3):
+            if board[r][c] !='⚪':
+                if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
+                    print_board()
+                    print('Player', board[r][c], 'won!')
+                    return True
     return False
 
 
+
 def win():
+    '''
+    Checks if any winning direction has one and end the game 
+    '''
     if horizontal_win() or vertical_win() or diagonal_win():
         return True
 
 
 def validate_input(x):
+    '''
+    Chacks that the input entered is a number between 1 and 7
+    '''
     while x < 1 or x > 7:
         x = int(input(f'Coloumn number {x} does not exist. Please enter a coloumn number between 1-7: '))
         continue
@@ -90,8 +105,14 @@ def validate_input(x):
 
 player = '🔴'
 while not win():
+    '''
+    Kepps playing the game until one of the win criterea is fullfilled
+    '''
     print_board()
     while True:
+        '''
+        Checks that the input is an integer
+        '''
         try:
             x = int(input('Enter a coloumn number between 1-7: '))
             break

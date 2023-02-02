@@ -53,6 +53,7 @@ def horizontal_win():
         for r in range(0, ROWS):
             if board[r][c] != '⚪':
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
+                    print_board()
                     print('Player', board[r][c], 'won!')
                     return True
     return False
@@ -66,12 +67,15 @@ def vertical_win():
         for r in range(0, 3):
             if board[r][c] != '⚪':
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
+                    print_board()
                     print('Player', board[r][c], 'won!')
                     return True
     return False
 
+
 def diagonal_win():
     return False
+
 
 def win():
     if horizontal_win() or vertical_win() or diagonal_win():
@@ -80,19 +84,21 @@ def win():
 
 def validate_input(x):
     while x < 1 or x > 7:
-        x = int(input(f'Coloumn number {x} does not exist. Please enter a coloumn number from 1-7: '))
+        x = int(input(f'Coloumn number {x} does not exist. Please enter a coloumn number between 1-7: '))
         continue
     return x
 
 player = '🔴'
 while not win():
     print_board()
-    x = int(input('Enter a coloumn number from 1-7: '))
+    while True:
+        try:
+            x = int(input('Enter a coloumn number between 1-7: '))
+            break
+        except ValueError as e:
+            print(f'That is an {e} is not a number. Please try again.')
     x = validate_input(x)
     place_chip(x, player)
     if player == '🔴':
         player = '🟡'
     else: player = '🔴'
-
-
-

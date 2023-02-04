@@ -11,13 +11,12 @@ def play_human():
 
 
 while True:
-    if computer == 'y' or 'yes':
+    if computer in ('yes', 'y'):
         play_computer()
         break
-    elif computer == 'n' or 'no':
+    elif computer in ('no', 'n'):
         play_human()
         break
     else:
-        computer = input('Do you want to play against a computer? (Y/N)').lower()
+        computer = input('Please enter YES or NO / Y or N: ').lower()
         continue
-        

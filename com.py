@@ -112,7 +112,43 @@ def validate_input(x):
             continue
     return x
 
+def play_computer():
+    '''
+    Plays the game with one human player and one unintelligent computer player
+    '''
+    player = '🔴'
+    while not win():
+        '''
+        Kepps playing the game until one of the win criteria is fulfilled
+        '''
+        print_board()
+        while True:
+            '''
+            Checks that the input is an integer
+            '''
+            try:
+                x = int(input('\nEnter a coloumn number between 1-7: \n'))
+                break
+            except ValueError as e:
+                print(f'\nThat is an {e} is not a number. Please try again.\n')
+        x = validate_input(x)
+        place_chip(x, player)
+        
+        
+        if player == '🔴':
+            player = '🟡'
+        else: player = '🔴'
+
+        if player == '🟡':
+            place_chip(random.randint(1, 7), player)
+            player = '🔴'
+        
+
+
 def play_human():
+    '''
+    Plays the game with two human players
+    '''
     player = '🔴'
     while not win():
         '''

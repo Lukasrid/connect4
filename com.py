@@ -1,21 +1,35 @@
 import random
+import time
 
 
 print('\nWelcome to Connect 4!\nPlayer 🔴 starts the game.\n')
 computer = input('Do you want to play against a computer? YES or NO? (Y/N): ').lower()
 
-board = [['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['⚪', '⚪', '⚪', '⚪', '⚪', '⚪', '⚪'],
-         ['1️⃣ ', '2️⃣ ', '3️⃣ ', '4️⃣ ', '5️⃣ ', '6️⃣ ', '7️⃣']]
+HUMAN = '🔴'
+COMPUTER = '🟡'
+EMPTY = '⚪'
+C1 = '1️⃣ '
+C2 = '2️⃣ '
+C3 = '3️⃣ '
+C4 = '4️⃣ '
+C5 = '5️⃣ '
+C6 = '6️⃣ '
+C7 = '7️⃣'
+
+board = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+         [C1, C2, C3, C4, C5, C6, C7]]
 
 
 ROWS = 8
 COLUMNS = 7
+
+
 
 
 def print_board():
@@ -60,14 +74,17 @@ def place_chip(col, player):
 
     
     for rows in range(ROWS-1, -1, -1):
-        if board[rows][col] == '⚪':
+        if board[rows][col] == EMPTY:
             if [rows] == [0]:
                 x = 0
                 print(f'\nColumn number {col+1} is full. Please choose a different column.\n')
+                if player == COMPUTER:
+                    x = random.randint(1, 7)
+                    place_chip(x, player)
                 x = validate_input(x)
                 place_chip(x, player)            
             board[rows][col] = player
-            board[0][col] = '⚪'
+            board[0][col] = EMPTY
             break
 
 
@@ -77,7 +94,7 @@ def horizontal_win():
     '''
     for c in range(0, 4):
         for r in range(1, ROWS):
-            if board[r][c] != '⚪':
+            if board[r][c] != EMPTY:
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
@@ -91,7 +108,7 @@ def vertical_win():
     '''
     for c in range(0, COLUMNS):
         for r in range(1, 4):
-            if board[r][c] != '⚪':
+            if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
@@ -106,7 +123,7 @@ def diagonal_win():
     # Going to the right and up, positive slope (/)
     for c in range(0, 4):
         for r in range(4, ROWS):
-            if board[r][c] != '⚪':
+            if board[r][c] != EMPTY:
                 if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
@@ -115,7 +132,7 @@ def diagonal_win():
     #Going to the right and down, negative slope (\)
     for c in range(0, 4):
         for r in range(1, 4):
-            if board[r][c] != '⚪':
+            if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
@@ -131,14 +148,13 @@ def win():
         return True
 
 
-
     
 
 def play_computer():
     '''
     Plays the game with one human player and one unintelligent computer player
     '''
-    player = '🔴'
+    player = HUMAN
     x = 0
     while not win():
         '''
@@ -147,14 +163,21 @@ def play_computer():
         print_board()
         x = validate_input(x)
         place_chip(x, player)
+        print_board()
         
         
-        if player == '🔴':
-            player = '🟡'
+        if player == HUMAN:
+            player = COMPUTER
 
-        if player == '🟡':
-            place_chip(random.randint(1, 7), player)
-            player = '🔴'
+        if player == COMPUTER:
+            if win():
+                return
+            print('\nComputer is thinking...\n')
+            time.sleep(random.randint(1, 2))
+            x = random.randint(1, 7)
+            place_chip(x, player)
+            print(f'Computer chose column number {x}\n')
+            player = HUMAN
         
 
 
@@ -162,7 +185,7 @@ def play_human():
     '''
     Plays the game with two human players
     '''
-    player = '🔴'
+    player = HUMAN
     x = 0
     while not win():
         '''
@@ -171,9 +194,9 @@ def play_human():
         print_board()
         x = validate_input(x)
         place_chip(x, player)
-        if player == '🔴':
-            player = '🟡'
-        else: player = '🔴'
+        if player == HUMAN:
+            player = COMPUTER
+        else: player = HUMAN
 
 
 while True:

@@ -42,7 +42,7 @@ def print_board():
         print(" ")
 
 
-def validate_input(x):
+def validate_input(col):
     '''
     Chacks that the input entered is a number between 1-7 and that it is an integer in base 10
     '''
@@ -51,38 +51,54 @@ def validate_input(x):
             Checks that the input is an integer
             '''
             try:
-                x = int(input('\nEnter a column number between 1-7: \n'))
+                col = int(input('\nEnter a column number between 1-7: \n'))
                 break
             except ValueError as e:
                 print(f'\nThat is an {e} is not a number. Please try again.\n')
-    while x < 1 or x > 7:
+    while col < 1 or col > 7:
         try:
-            x = int(input(f'\nColumn number {x} does not exist. Please enter a column number between 1-7: \n'))
+            col = int(input(f'\nColumn number {col} does not exist. Please enter a column number between 1-7: \n'))
             continue
         except ValueError as e:
             print(f'\nThat is an {e} is not a number. Please try again.')
-            x = int(input('Enter a coloumn number between 1-7: \n'))
+            col = int(input('Enter a coloumn number between 1-7: \n'))
             continue
-    return x
+    return col
 
 
-def place_chip(col, player):
+def place_chip_computer(col, player):
+    '''
+    Places chip in the first empty slot from the bottom in a column and does not allow the computer to place a chip in a full column
+    '''
+    col = col - 1
+
+    
+    for rows in range(1, -1, -1):
+        if board[rows][col] == EMPTY:
+            board[0][col] = EMPTY
+            if [rows] == [0]:
+                col = random.randint(1, 7)
+                place_chip_computer(col, player)
+                break             
+            board[rows][col] = player
+            
+            break
+
+
+def place_chip_human(col, player):
     '''
     Places chip in the first empty slot from the bottom in a column and checks whether that column is full
     '''
     col = col - 1
 
     
-    for rows in range(ROWS-1, -1, -1):
+    for rows in range(1, -1, -1):
         if board[rows][col] == EMPTY:
             if [rows] == [0]:
-                x = 0
+                col = 0 
                 print(f'\nColumn number {col+1} is full. Please choose a different column.\n')
-                if player == COMPUTER:
-                    x = random.randint(1, 7)
-                    place_chip(x, player)
-                x = validate_input(x)
-                place_chip(x, player)            
+                col = validate_input(col)
+                place_chip_human(col, player)            
             board[rows][col] = player
             board[0][col] = EMPTY
             break
@@ -146,8 +162,6 @@ def win():
     '''
     if horizontal_win() or vertical_win() or diagonal_win():
         return True
-
-
     
 
 def play_computer():
@@ -155,14 +169,14 @@ def play_computer():
     Plays the game with one human player and one unintelligent computer player
     '''
     player = HUMAN
-    x = 0
+    col = 0
     while not win():
         '''
         Kepps playing the game until one of the win criteria is fulfilled
         '''
         print_board()
-        x = validate_input(x)
-        place_chip(x, player)
+        col = validate_input(col)
+        place_chip_human(col, player)
         print_board()
         
         
@@ -173,10 +187,10 @@ def play_computer():
             if win():
                 return
             print('\nComputer is thinking...\n')
-            time.sleep(random.randint(1, 2))
-            x = random.randint(1, 7)
-            place_chip(x, player)
-            print(f'Computer chose column number {x}\n')
+            #time.sleep(random.randint(1, 2))
+            col = random.randint(1, 7)
+            place_chip_computer(col, player)            
+            print(f'Computer chose column number {col}\n')
             player = HUMAN
         
 
@@ -186,14 +200,14 @@ def play_human():
     Plays the game with two human players
     '''
     player = HUMAN
-    x = 0
+    col = 0
     while not win():
         '''
         Kepps playing the game until one of the win criteria is fulfilled
         '''
         print_board()
-        x = validate_input(x)
-        place_chip(x, player)
+        col = validate_input(col)
+        place_chip_human(col, player)
         if player == HUMAN:
             player = COMPUTER
         else: player = HUMAN

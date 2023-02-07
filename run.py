@@ -82,9 +82,9 @@ def place_chip_computer(col, player):
                 place_chip_computer(col, player)
                 break             
             board[rows][col] = player
-            
+            print(f'Computer chose column number {col+1}\n')
             break
-
+    
 
 def place_chip_human(col, player):
     '''
@@ -172,7 +172,7 @@ def play_computer():
     player = random.choice([HUMAN, COMPUTER])
     print(f'\nYour are {HUMAN}.\n')
     time.sleep(2)
-    print(f'\n{player} Starts the game.\n')
+    print(f'{player} Starts the game.\n')
     time.sleep(2)
     col = 0
     while not win():
@@ -194,7 +194,7 @@ def play_computer():
             time.sleep(random.randint(1, 2))
             col = random.randint(1, 7)
             place_chip_computer(col, player)            
-            print(f'Computer chose column number {col}\n')
+            
 
         if player == HUMAN:
             player = COMPUTER

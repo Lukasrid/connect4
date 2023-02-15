@@ -132,6 +132,7 @@ def horizontal_win():
         for r in range(1, ROWS):
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
+                    print(' ')
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
                     player = board[r][c]
@@ -149,6 +150,7 @@ def vertical_win():
         for r in range(1, 4):
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
+                    print(' ')
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
                     player = board[r][c]
@@ -167,6 +169,7 @@ def diagonal_win():
         for r in range(4, ROWS):
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
+                    print(' ')
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
                     player = board[r][c]
@@ -179,6 +182,7 @@ def diagonal_win():
         for r in range(1, 4):
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
+                    print(' ')
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
                     player = board[r][c]
@@ -194,7 +198,7 @@ def win():
     '''
     if horizontal_win() or vertical_win() or diagonal_win():
         return True
-    
+   
 
 def play_computer():
     '''

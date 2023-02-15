@@ -19,7 +19,7 @@ SHEET = GSPREAD_CLIENT.open('connect4_score')
 
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
-computer = input('Do you want to play against a computer? YES or NO? (Y/N): ').lower()
+computer = input('Do you want to play against a computer? YES or NO? (Y/N): \n').lower()
 
 
 HUMAN = '🔴'
@@ -71,7 +71,7 @@ def validate_input(col, player):
             Checks that the input is an integer
             '''
             try:
-                col = int(input(f'\n{player} Enter a column number between 1-7: '))
+                col = int(input(f'\n{player} Enter a column number between 1-7: \n'))
                 break
             except ValueError as e:
                 print(f'\nThat is an {e} is not a number. Please try again.\n')
@@ -274,8 +274,8 @@ def get_player_names():
     """
     current_time = datetime.datetime.now()
     current_time = roundSeconds(current_time)
-    player1 = input(f"\nEnter name of player 1 {HUMAN} : ")
-    player2 = input(f"Enter name of player 2 {COMPUTER} : ")
+    player1 = input(f"\nEnter name of player 1 {HUMAN} : \n")
+    player2 = input(f"Enter name of player 2 {COMPUTER} : \n")
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
     players_combined = player1_and_2.split(",")
@@ -290,7 +290,7 @@ def get_player_name_com():
     """
     current_time = datetime.datetime.now()
     current_time = roundSeconds(current_time)
-    player1 = input(f"\nEnter your name: ")
+    player1 = input(f"\nEnter your name: \n")
     player2 = 'Computer'
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
@@ -343,5 +343,5 @@ while True:
         play_human()
         break
     else:
-        computer = input('Please enter YES or NO / Y or N: ').lower()
+        computer = input('Please enter YES or NO / Y or N: \n').lower()
         continue

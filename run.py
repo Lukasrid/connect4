@@ -16,6 +16,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('connect4_score')
 
 
+
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
 computer = input('Do you want to play against a computer? YES or NO? (Y/N): ').lower()
@@ -46,6 +47,9 @@ ROWS = 8
 COLUMNS = 7
 
 
+def roundSeconds(current_time):
+    newDateTime = current_time + datetime.timedelta(seconds=.5)
+    return newDateTime.replace(microsecond=0)
 
 
 def print_board():
@@ -196,6 +200,8 @@ def play_computer():
     '''
     Plays the game with one human player and one unintelligent computer player
     '''
+    players = get_player_name_com()
+    update_score_sheet_names(players)
     player = random.choice([HUMAN, COMPUTER])
     print(f'\nYour are {HUMAN}.\n')
     time.sleep(2)
@@ -263,8 +269,25 @@ def get_player_names():
     Lets the users enter their names and records them in a google sheet
     """
     current_time = datetime.datetime.now()
+    current_time = roundSeconds(current_time)
     player1 = input(f"\nEnter name of player 1 {HUMAN} : ")
     player2 = input(f"Enter name of player 2 {COMPUTER} : ")
+    player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
+
+    players_combined = player1_and_2.split(",")
+   
+
+    return players_combined
+
+
+def get_player_name_com():
+    """
+    Lets the users enter their names and records them in a google sheet
+    """
+    current_time = datetime.datetime.now()
+    current_time = roundSeconds(current_time)
+    player1 = input(f"\nEnter your name: ")
+    player2 = 'Computer'
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
     players_combined = player1_and_2.split(",")
@@ -278,7 +301,8 @@ def get_winner_name(player):
     Formulates who won the game
     '''
     current_time = datetime.datetime.now()
-    winner_print = player + ',' + 'Won the game' + ',' + 'at' + ',' + str(current_time)
+    current_time = roundSeconds(current_time)
+    winner_print = player + ',' + 'won the game' + ',' + 'at' + ',' + str(current_time)
 
     winners = winner_print.split(",")
    

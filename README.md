@@ -38,6 +38,20 @@ This python program is a remake of the classic connect 4 game. It takes 6 rows a
     The game was tested constantly while being written with loads and loads of bugs being found and fixed along the way. Getting the draw feature and the checking if a column is full were found to be particularly ticky but solutions were found in the end.
     No current bugs have been found in the end product.
     The game has been tested on muliple different devices with full funcionality. 
+
+## Validator Testing
+- PEP8
+    - Only errors that were found were that lines were too long
+
+## Deployment
+- Deployed through heroku
+    - https://connect4-lukasrid.herokuapp.com/
+
+## Credits
+- Code Insitute
+- W3Schools
+- Youtube
+
    
 
 

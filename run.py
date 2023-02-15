@@ -16,7 +16,6 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('connect4_score')
 
 
-
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
 computer = input('Do you want to play against a computer? YES or NO? (Y/N): \n').lower()
@@ -67,14 +66,14 @@ def validate_input(col, player):
     Chacks that the input entered is a number between 1-7 and that it is an integer in base 10
     '''
     while True:
-            '''
-            Checks that the input is an integer
-            '''
-            try:
-                col = int(input(f'\n{player} Enter a column number between 1-7: \n'))
-                break
-            except ValueError as e:
-                print(f'\nThat is an {e} is not a number. Please try again.\n')
+        '''
+        Checks that the input is an integer
+        '''
+        try:
+            col = int(input(f'\n{player} Enter a column number between 1-7: \n'))
+            break
+        except ValueError as e:
+            print(f'\nThat is an {e} is not a number. Please try again.\n')
     while col < 1 or col > 7:
         try:
             col = int(input(f'\nColumn number {col} does not exist. Please enter a column number between 1-7: \n'))
@@ -92,18 +91,17 @@ def place_chip_computer(col, player):
     '''
     col = col - 1
 
-    
     for rows in range(ROWS-1, -1, -1):
         if board[rows][col] == EMPTY:
             board[0][col] = EMPTY
             if [rows] == [0]:
                 col = random.randint(1, 7)
                 place_chip_computer(col, player)
-                break             
+                break
             board[rows][col] = player
             print(f'Computer chose column number {col+1}')
             break
-    
+
 
 def place_chip_human(col, player):
     '''
@@ -111,14 +109,13 @@ def place_chip_human(col, player):
     '''
     col = col - 1
 
-    
     for rows in range(ROWS-1, -1, -1):
         if board[rows][col] == EMPTY:
             if [rows] == [0]:
-                col = 0 
+                col = 0
                 print(f'\nColumn number {col+1} is full. Please choose a different column.\n')
                 col = validate_input(col, player)
-                place_chip_human(col, player)            
+                place_chip_human(col, player)
             board[rows][col] = player
             board[0][col] = EMPTY
             break
@@ -177,7 +174,7 @@ def diagonal_win():
                     update_score_sheet_result(winner)
                     return True
 
-    #Going to the right and down, negative slope (\)
+    # Going to the right and down, negative slope (\)
     for c in range(0, 4):
         for r in range(1, 4):
             if board[r][c] != EMPTY:
@@ -194,11 +191,11 @@ def diagonal_win():
 
 def win():
     '''
-    Checks if any winning direction has one and end the game 
+    Checks if any winning direction has one and end the game
     '''
     if horizontal_win() or vertical_win() or diagonal_win():
         return True
-   
+
 
 def play_computer():
     '''
@@ -231,15 +228,14 @@ def play_computer():
             print('\nComputer is thinking...\n')
             time.sleep(random.randint(1, 2))
             col = random.randint(1, 7)
-            place_chip_computer(col, player)            
-            
+            place_chip_computer(col, player)
 
         if player == HUMAN:
             player = COMPUTER
 
         else:
             player = HUMAN
-    
+
 
 def play_human():
     '''
@@ -259,13 +255,14 @@ def play_human():
         print('')
         print_board()
         if EMPTY not in board[1]:
-                print('\nThe game is a draw. You both suck...\n\n\n\n\n\nbye.\n\n\n\n')
-                break
+            print('\nThe game is a draw. You both suck...\n\n\n\n\n\nbye.\n\n\n\n')
+            break
         col = validate_input(col, player)
         place_chip_human(col, player)
         if player == HUMAN:
             player = COMPUTER
-        else: player = HUMAN
+        else:
+            player = HUMAN
 
 
 def get_player_names():
@@ -279,7 +276,6 @@ def get_player_names():
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
     players_combined = player1_and_2.split(",")
-   
 
     return players_combined
 
@@ -295,7 +291,6 @@ def get_player_name_com():
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
     players_combined = player1_and_2.split(",")
-   
 
     return players_combined
 
@@ -309,7 +304,6 @@ def get_winner_name(player):
     winner_print = player + ',' + 'won the game' + ',' + 'at' + ',' + str(current_time)
 
     winners = winner_print.split(",")
-   
 
     return winners
 
@@ -318,17 +312,16 @@ def update_score_sheet_names(players):
     """
     Updates the players names on the score sheet
     """
-    
     print("\nUpdating names...\n")
     sales_worksheet = SHEET.worksheet("score")
     sales_worksheet.append_row(players)
     print("Names updated.")
 
+
 def update_score_sheet_result(winner):
     """
     Update the winner on the score sheet
     """
-    
     print("\nUpdating score...\n")
     sales_worksheet = SHEET.worksheet("score")
     sales_worksheet.append_row(winner)

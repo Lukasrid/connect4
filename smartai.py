@@ -1,18 +1,6 @@
 import random
 import time
-import gspread
-from google.oauth2.service_account import Credentials
 
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive"
-    ]
-
-CREDS = Credentials.from_service_account_file('creds.json')
-SCOPED_CREDS = CREDS-with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('connect4_score')
 
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
@@ -79,13 +67,65 @@ def validate_input(col, player):
     return col
 
 
+def is_valid_location(board, col):
+	return board[ROWS-1][col] == EMPTY
+
+
+def get_next_open_row(board, col):
+	for r in range(ROWS):
+		if board[r][col] == EMPTY:
+			return r
+
+
+def drop_piece(board, row, col, player):
+	board[row][col] = player
+
+
+def score_position(board, player):
+    score = 0
+    for r in range(ROWS):
+        row_array = [int(i) for i in list(board[r,:])]
+        for c in range(COLUMNS-3):
+            window = row_array[c:c+4]
+
+            if window.count(player) == 4:
+                score+= 100
+            elif window.count(player) == 3 and window.count(EMPTY) == 1:
+                score += 10
+
+    return score
+
+
+def get_valid_locations(board):
+	valid_locations = []
+	for col in range(COLUMNS):
+		if is_valid_location(board, col):
+			valid_locations.append(col)
+	return valid_locations
+
+
+def pick_best_move(board, player):
+    valid_locations = get_valid_locations(board)
+    print(valid_locations)
+    best_score = 0
+    best_col = random.choice(valid_locations)
+    for col in valid_locations:
+        row = get_next_open_row(board, col)
+        temp_board = board.copy()
+        drop_piece(board, row, col, player)
+        score = score_position(temp_board, player)
+        if score > best_score:
+            best_score = score
+            best_col = col
+    return best_col
+
 def place_chip_computer(col, player):
     '''
     Places chip in the first empty slot from the bottom in a column and does not allow the computer to place a chip in a full column
     '''
     col = col - 1
+        
 
-    
     for rows in range(ROWS-1, -1, -1):
         if board[rows][col] == EMPTY:
             board[0][col] = EMPTY
@@ -205,7 +245,8 @@ def play_computer():
                 break
             print('\nComputer is thinking...\n')
             time.sleep(random.randint(1, 2))
-            col = random.randint(1, 7)
+            col = pick_best_move(board, player)
+            #col = random.randint(1, 7)
             place_chip_computer(col, player)            
             
 

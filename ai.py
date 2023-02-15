@@ -1,18 +1,6 @@
 import random
 import time
-import gspread
-from google.oauth2.service_account import Credentials
 
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive"
-    ]
-
-CREDS = Credentials.from_service_account_file('creds.json')
-SCOPED_CREDS = CREDS-with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('connect4_score')
 
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
@@ -79,17 +67,32 @@ def validate_input(col, player):
     return col
 
 
+def ai(col):
+    for c in range(0, 4):
+        for r in range(1, ROWS):
+            if COMPUTER == board[r][c]:
+                print(board[r][c])
+            else:
+                col = random.randint(1, 7)
+                return col
+
+                
+                
+
+
+
+
 def place_chip_computer(col, player):
     '''
     Places chip in the first empty slot from the bottom in a column and does not allow the computer to place a chip in a full column
     '''
     col = col - 1
+        
 
-    
-    for rows in range(ROWS-1, -1, -1):
+    for rows in range(1, -1, -1):
         if board[rows][col] == EMPTY:
-            board[0][col] = EMPTY
             if [rows] == [0]:
+                board[0][col] = EMPTY
                 col = random.randint(1, 7)
                 place_chip_computer(col, player)
                 break             
@@ -105,7 +108,7 @@ def place_chip_human(col, player):
     col = col - 1
 
     
-    for rows in range(ROWS-1, -1, -1):
+    for rows in range(1, -1, -1):
         if board[rows][col] == EMPTY:
             if [rows] == [0]:
                 col = 0 
@@ -126,7 +129,7 @@ def horizontal_win():
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
                     print_board()
-                    print('\nPlayer', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!\n')
                     return True
     return False
 
@@ -140,7 +143,7 @@ def vertical_win():
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
                     print_board()
-                    print('\nPlayer', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!\n')
                     return True
     return False
 
@@ -155,7 +158,7 @@ def diagonal_win():
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
                     print_board()
-                    print('\nPlayer', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!\n')
                     return True
 
     #Going to the right and down, negative slope (\)
@@ -164,7 +167,7 @@ def diagonal_win():
             if board[r][c] != EMPTY:
                 if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
                     print_board()
-                    print('\nPlayer', board[r][c], 'won!')
+                    print('\nPlayer', board[r][c], 'won!\n')
                     return True
     return False
 
@@ -193,19 +196,17 @@ def play_computer():
         '''
         print(' ')
         print_board()
-        if player == HUMAN:
-            if EMPTY not in board[1]:
+        if EMPTY not in board[1]:
                 print('\nThe game is a draw!\n')
                 break
+        if player == HUMAN:            
             col = validate_input(col, player)
             place_chip_human(col, player)
         elif player == COMPUTER:
-            if EMPTY not in board[1]:
-                print('\nThe game is a draw!\n')
-                break
             print('\nComputer is thinking...\n')
             time.sleep(random.randint(1, 2))
-            col = random.randint(1, 7)
+            col = ai(col)
+            #col = random.randint(1, 7)
             place_chip_computer(col, player)            
             
 

@@ -1,5 +1,6 @@
 import random
 import time
+import datetime
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -10,13 +11,15 @@ SCOPE = [
     ]
 
 CREDS = Credentials.from_service_account_file('creds.json')
-SCOPED_CREDS = CREDS-with_scopes(SCOPE)
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('connect4_score')
+
 
 print('\nWelcome to Connect 4!\n')
 time.sleep(1)
 computer = input('Do you want to play against a computer? YES or NO? (Y/N): ').lower()
+
 
 HUMAN = '🔴'
 COMPUTER = '🟡'
@@ -214,13 +217,16 @@ def play_computer():
 
         else:
             player = HUMAN
-        
+    
 
 def play_human():
     '''
     Plays the game with two human players
     '''
-    player = random.choice([HUMAN, COMPUTER])
+    players = get_player_names()
+    update_score_sheet(players)
+
+    player = HUMAN
     print(f'\n Player {player} starts the game.')
     time.sleep(2)
     col = 0
@@ -238,7 +244,37 @@ def play_human():
         if player == HUMAN:
             player = COMPUTER
         else: player = HUMAN
-        
+
+
+def get_player_names():
+    """
+    Get sales figures input from the user.
+    Run a while loop to collect a valid string of data from the user
+    via the terminal, which must be a string of 6 numbers separated
+    by commas. The loop will repeatedly request data, until it is valid.
+    """
+    current_time = datetime.datetime.now()
+    print(current_time)
+    player1 = input(f"Enter name of player 1 {HUMAN} : ")
+    player2 = input(f"Enter name of player 2 {COMPUTER} : ")
+    player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
+
+    players_combined = player1_and_2.split(",")
+   
+
+    return players_combined
+
+
+def update_score_sheet(players):
+    """
+    Update sales worksheet, add new row with the list data provided
+    """
+    
+    print("\nUpdating names...\n")
+    sales_worksheet = SHEET.worksheet("score")
+    sales_worksheet.append_row(players)
+    print("Names updated.\n")
+
 
 while True:
     if computer in ('yes', 'y'):

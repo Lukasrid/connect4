@@ -130,6 +130,9 @@ def horizontal_win():
                 if board[r][c] == board[r][c+1] == board[r][c+2] == board[r][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
+                    player = board[r][c]
+                    winner = get_winner_name(player)
+                    update_score_sheet_result(winner)
                     return True
     return False
 
@@ -144,6 +147,9 @@ def vertical_win():
                 if board[r][c] == board[r+1][c] == board[r+2][c] == board[r+3][c]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
+                    player = board[r][c]
+                    winner = get_winner_name(player)
+                    update_score_sheet_result(winner)
                     return True
     return False
 
@@ -159,6 +165,9 @@ def diagonal_win():
                 if board[r][c] == board[r-1][c+1] == board[r-2][c+2] == board[r-3][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
+                    player = board[r][c]
+                    winner = get_winner_name(player)
+                    update_score_sheet_result(winner)
                     return True
 
     #Going to the right and down, negative slope (\)
@@ -168,6 +177,9 @@ def diagonal_win():
                 if board[r][c] == board[r+1][c+1] == board[r+2][c+2] == board[r+3][c+3]:
                     print_board()
                     print('\nPlayer', board[r][c], 'won!')
+                    player = board[r][c]
+                    winner = get_winner_name(player)
+                    update_score_sheet_result(winner)
                     return True
     return False
 
@@ -224,10 +236,10 @@ def play_human():
     Plays the game with two human players
     '''
     players = get_player_names()
-    update_score_sheet(players)
+    update_score_sheet_names(players)
 
     player = HUMAN
-    print(f'\n Player {player} starts the game.')
+    print(f'\nPlayer {player} starts the game.')
     time.sleep(2)
     col = 0
     while not win():
@@ -248,14 +260,10 @@ def play_human():
 
 def get_player_names():
     """
-    Get sales figures input from the user.
-    Run a while loop to collect a valid string of data from the user
-    via the terminal, which must be a string of 6 numbers separated
-    by commas. The loop will repeatedly request data, until it is valid.
+    Lets the users enter their names and records them in a google sheet
     """
     current_time = datetime.datetime.now()
-    print(current_time)
-    player1 = input(f"Enter name of player 1 {HUMAN} : ")
+    player1 = input(f"\nEnter name of player 1 {HUMAN} : ")
     player2 = input(f"Enter name of player 2 {COMPUTER} : ")
     player1_and_2 = player1 + ',' + ' vs ' + ',' + player2 + ',' + str(current_time)
 
@@ -265,15 +273,38 @@ def get_player_names():
     return players_combined
 
 
-def update_score_sheet(players):
+def get_winner_name(player):
+    '''
+    Formulates who won the game
+    '''
+    current_time = datetime.datetime.now()
+    winner_print = player + ',' + 'Won the game' + ',' + 'at' + ',' + str(current_time)
+
+    winners = winner_print.split(",")
+   
+
+    return winners
+
+
+def update_score_sheet_names(players):
     """
-    Update sales worksheet, add new row with the list data provided
+    Updates the players names on the score sheet
     """
     
     print("\nUpdating names...\n")
     sales_worksheet = SHEET.worksheet("score")
     sales_worksheet.append_row(players)
-    print("Names updated.\n")
+    print("Names updated.")
+
+def update_score_sheet_result(winner):
+    """
+    Update the winner on the score sheet
+    """
+    
+    print("\nUpdating score...\n")
+    sales_worksheet = SHEET.worksheet("score")
+    sales_worksheet.append_row(winner)
+    print("Score updated.\n")
 
 
 while True:

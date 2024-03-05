@@ -1,4 +1,5 @@
 The game can be accessed here: https://connect4-lukasrid.herokuapp.com/
+
 The updated score sheet can be accessed here: https://docs.google.com/spreadsheets/d/1muXo2cuhrKnNmB7hg5cCeiikYSkF1gECyGxrjFk41HE/edit?usp=sharing
 
 # Connect 4

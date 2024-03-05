@@ -1,3 +1,6 @@
+The game can be accessed here: https://connect4-lukasrid.herokuapp.com/
+The updated score sheet can be accessed here: https://docs.google.com/spreadsheets/d/1muXo2cuhrKnNmB7hg5cCeiikYSkF1gECyGxrjFk41HE/edit?usp=sharing
+
 # Connect 4
 
 This python program is a remake of the classic connect 4 game. It takes 6 rows and 7 columns and 2 players that take turns placing down there assigned colored chips (red 🔴 and yellow 🟡 in this case) which fall down to the lowest possible row in the selected column. The game ends when there are 4 of the same colors in a row either horizontally, vertically, or either diagonal direction and the player with that color is declared the winner. The game can also end if the board fills up with no 4 in a row achived which will result the game in a tie. This is a terminal based game.
@@ -46,6 +49,7 @@ This python program is a remake of the classic connect 4 game. It takes 6 rows a
 ## Deployment
 - Deployed through heroku
     - https://connect4-lukasrid.herokuapp.com/
+  
 
 ## Credits
 - Code Insitute
